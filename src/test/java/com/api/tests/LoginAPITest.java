@@ -8,6 +8,8 @@ import java.io.IOException;
 import org.testng.annotations.Test;
 
 import com.api.pojos.UserCredentials;
+import com.api.utils.SpecUtil;
+
 import static com.api.utils.ConfigManager.*;
 
 import io.restassured.http.ContentType;
@@ -18,21 +20,10 @@ public class LoginAPITest {
 	public void loginAPITest() throws IOException {
 		
 		//Read the property value that is going to be passed from terminal
-		System.out.println(System.getProperty("env"));
 		UserCredentials userCredentials= new UserCredentials("iamfd", "password");
-		given().baseUri(getProperty("BASE_URI"))
-		.and().contentType(ContentType.JSON)
-		.and()
-		.accept(ContentType.JSON)
-		.and().body(userCredentials)
-		.log().uri()
-		.log().method()
-		.log().headers()
-		.log().body()
+		given().spec(SpecUtil.requestSpec(userCredentials))
 		.when().post("login")
-		.then().statusCode(200)
-		.log().all()
-		//.time(lessThan(10009L)).and()
+		.then().spec(SpecUtil.responseSpec_OK())
 		.body("message", equalTo("Success"))
 		.and().body(JsonSchemaValidator.matchesJsonSchemaInClasspath("response-schema/LoginResponseSchema.json"));
 		
