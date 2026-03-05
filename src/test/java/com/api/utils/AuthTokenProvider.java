@@ -1,11 +1,10 @@
-package com.api.tests;
+package com.api.utils;
 import static io.restassured.RestAssured.*;
 
 import org.hamcrest.Matchers;
 
 import com.api.constants.Roles;
 import com.api.pojos.UserCredentials;
-import com.api.utils.ConfigManager;
 
 import io.restassured.http.ContentType;
 
