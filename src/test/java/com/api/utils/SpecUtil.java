@@ -10,7 +10,7 @@ import io.restassured.specification.ResponseSpecification;
 import org.hamcrest.Matchers;
 
 import com.api.constants.Roles;
-import com.api.pojos.UserCredentials;
+import com.api.request.model.UserCredentials;
 import com.api.utils.ConfigManager.*;
 
 public class SpecUtil {
