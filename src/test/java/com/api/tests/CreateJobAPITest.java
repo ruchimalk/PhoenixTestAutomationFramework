@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hamcrest.Matchers;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.api.constants.Model;
@@ -26,7 +27,26 @@ import com.api.utils.SpecUtil;
 import io.restassured.module.jsv.JsonSchemaValidator;
 
 public class CreateJobAPITest {
-	@Test
+private	CreateJobPayload createJobPayload;
+
+   @BeforeMethod(description="Creating create job api request payload") 
+	public void setup() {
+		
+		System.out.println("#############################################");
+		//Creating the createJobPayload object
+		Customer customer= new Customer("Ruchi","Malik","9811408044","", "ruchimalik11@gmail.com", "");
+		CustomerAddress customerAddress= new CustomerAddress("C-101", "Whitethorn Square", "Whitethorn Village", "John Devoy", "Naas", 1234, "India", "Delhi");
+		CustomerProduct customerProduct= new CustomerProduct(DateTimeUtil.getTimeWithDaysAgo(10), "99568638074122", "99568638074122", "99568638074122", DateTimeUtil.getTimeWithDaysAgo(10),Product.NEXUS_2.getCode(),Model.NEXUS_2_BLUE.getCode());
+		Problems problems= new Problems(Problem.SMARTPHONE_IS_RUNNING_SLOW.getCode(), "Battery Issue");
+		List<Problems> problemList=new ArrayList<Problems>();
+		problemList.add(problems);
+		
+		createJobPayload= new CreateJobPayload(ServiceLocation.SERVICE_LOCATION_A.getCode(),Platform.FRONT_DESK.getCode(),Warranty_Status.IN_WARRANTY.getCode(),OEM.GOOGLE.getCode(),customer, customerAddress,customerProduct,problemList);
+		
+	}
+	
+	
+	@Test(description= "Verify if the create job API is able to create Inwarranty job", groups= {"api", "smoke", "regression"})
 	public void createJobAPITest() {
 
 		System.out.println("#############################################");
