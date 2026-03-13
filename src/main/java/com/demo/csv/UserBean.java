@@ -1,9 +1,17 @@
 package com.demo.csv;
 
-public class UserPOJO {
-	private String username;
+import com.opencsv.bean.CsvBindByName;
+
+public class UserBean {
 	
-	public UserPOJO() {
+	@CsvBindByName(column="username")
+	private String username;
+	@CsvBindByName(column="password")
+
+	private String password;
+
+	
+	public UserBean() {
 		
 	}
 	public String getUsername() {
@@ -27,9 +35,8 @@ public class UserPOJO {
 		this.password = password;
 	}
 
-	private String password;
 
-	public UserPOJO(String username, String password) {
+	public UserBean(String username, String password) {
 		super();
 		this.username = username;
 		this.password = password;
