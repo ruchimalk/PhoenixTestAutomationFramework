@@ -50,9 +50,9 @@ public class FakerDemo2 {
 				popUrl, 1, 1);
 		System.out.println(customerProduct);
 
-		String fakeRemark = faker.lorem().sentence(10);
+		String fakeRemark = faker.lorem().sentence(5);
 		Random random = new Random();
-		int problemId = random.nextInt(27) + 1;
+		int problemId = random.nextInt(25) + 1;
 		Problems problems = new Problems(problemId, fakeRemark);
 		System.out.println(problems);
 		List<Problems> problemList =new ArrayList<Problems>();
