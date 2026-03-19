@@ -24,7 +24,7 @@ import com.github.javafaker.Faker;
 
 import io.restassured.module.jsv.JsonSchemaValidator;
 
-public class CreateJobAPITestDataDrivenTest {
+public class CreateJobAPIFakeDataDrivenTest {
 	private CreateJobPayload createJobPayload;
 	public final static String country = "India";
 
@@ -38,10 +38,11 @@ public class CreateJobAPITestDataDrivenTest {
 }
    
 	
-	@Test(description= "Verify if the create job API is able to create Inwarranty job")
-	public void createJobAPITest() {
+	@Test(description= "Verify if the create job API is able to create Inwarranty job",groups= {"api", "regression"},
+			dataProviderClass=com.dataproviders.DataProviderUtils.class,dataProvider="CreateJobFakerAPIDataProvider")
+	public void createJobAPITest(CreateJobPayload createJobPayload) {
 
-		System.out.println("#############################################");
+	
 	
 
 		 
