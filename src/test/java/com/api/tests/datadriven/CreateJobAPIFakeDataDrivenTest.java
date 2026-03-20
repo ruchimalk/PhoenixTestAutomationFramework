@@ -1,4 +1,5 @@
 package com.api.tests.datadriven;
+
 import static io.restassured.RestAssured.given;
 
 import java.util.ArrayList;
@@ -28,33 +29,25 @@ public class CreateJobAPIFakeDataDrivenTest {
 	private CreateJobPayload createJobPayload;
 	public final static String country = "India";
 
-@BeforeMethod(description="Creating create job api payload")
+	@BeforeMethod(description = "Creating create job api payload")
 	public void setup() {
-	
 
-	createJobPayload= FakeDataGenerator.createFakeCreateJobData();
-	
-	
-}
-   
-	
-	@Test(description= "Verify if the create job API is able to create Inwarranty job",groups= {"api", "regression"},
-			dataProviderClass=com.dataproviders.DataProviderUtils.class,dataProvider="CreateJobFakerAPIDataProvider")
+		createJobPayload = FakeDataGenerator.createFakeCreateJobData();
+
+	}
+
+	@Test(description = "Verify if the create job API is able to create Inwarranty job", groups = { "api",
+			"regression" }, dataProviderClass = com.dataproviders.DataProviderUtils.class, dataProvider = "CreateJobFakerAPIDataProvider")
 	public void createJobAPITest(CreateJobPayload createJobPayload) {
 
-	
-	
+		given().spec(SpecUtil.requestSpecWithAuth(Roles.FD, createJobPayload)).when().post("/job/create").then()
+				.spec(SpecUtil.responseSpec_OK())
+				.body(JsonSchemaValidator
+						.matchesJsonSchemaInClasspath("response-schema/CreateJobAPIResponseSchema.json"))
+				.body("message", Matchers.equalTo("Job created successfully. "))
+				.body("data.mst_service_location_id", Matchers.equalTo(1))
+				.body("data.job_number", Matchers.startsWith("JOB_"));
 
-		 
-		given().spec(SpecUtil.requestSpecWithAuth(Roles.FD, createJobPayload))
-		.when().post("/job/create")
-		.then().spec(SpecUtil.responseSpec_OK())
-		.body(JsonSchemaValidator.matchesJsonSchemaInClasspath("response-schema/CreateJobAPIResponseSchema.json"))
-		.body("message", Matchers.equalTo("Job created successfully. "))
-		.body("data.mst_service_location_id", Matchers.equalTo(1))
-		.body("data.job_number",Matchers.startsWith("JOB_"));
-		
-		
 	}
 
 }
