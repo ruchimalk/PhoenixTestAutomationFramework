@@ -37,7 +37,7 @@ public class CreateJobAPIFakeDataDrivenTest {
 	}
 
 	@Test(description = "Verify if the create job API is able to create Inwarranty job", groups = { "api",
-			"regression" }, dataProviderClass = com.dataproviders.DataProviderUtils.class, dataProvider = "CreateJobFakerAPIDataProvider")
+			"regression", "faker" }, dataProviderClass = com.dataproviders.DataProviderUtils.class, dataProvider = "CreateJobFakerAPIDataProvider")
 	public void createJobAPITest(CreateJobPayload createJobPayload) {
 
 		given().spec(SpecUtil.requestSpecWithAuth(Roles.FD, createJobPayload)).when().post("/job/create").then()
