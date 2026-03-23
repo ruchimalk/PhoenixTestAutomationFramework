@@ -115,4 +115,18 @@ public static ResponseSpecification responseSpec_TEXT(int statusCode) {
 	return responseSpecification;
 
 }
+
+public static RequestSpecification requestSpec(UserCredentials userCredentials) {
+	RequestSpecification request=new RequestSpecBuilder().setBaseUri(ConfigManager.getProperty("BASE_URI"))
+			.setContentType(ContentType.JSON)
+			.setAccept(ContentType.JSON)
+			.setBody(userCredentials)
+			.log(LogDetail.URI)
+			.log(LogDetail.METHOD)
+			.log(LogDetail.HEADERS)
+			.log(LogDetail.BODY)
+			.build();
+		
+		return request;
+}
 }
