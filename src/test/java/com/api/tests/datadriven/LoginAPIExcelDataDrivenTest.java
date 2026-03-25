@@ -21,10 +21,10 @@ public class LoginAPIExcelDataDrivenTest {
 
 	@Test(description= "Verifying if the login api is working for user iamfd", groups= {"api","regression","dataDriven", "json"}, 
 			dataProviderClass=com.dataproviders.DataProviderUtils.class, dataProvider= "loginAPIExcelDataProvider")
-	public void loginAPITest(UserCredentials userCredentials)  {
+	public void loginAPITest(UserBean userBean)  {
 		
 		//Read the property value that is going to be passed from terminal
-		given().spec(SpecUtil.requestSpec(userCredentials))
+		given().spec(SpecUtil.requestSpec(userBean))
 		.when().post("login")
 		.then().spec(SpecUtil.responseSpec_OK())
 		.body("message", equalTo("Success"))
