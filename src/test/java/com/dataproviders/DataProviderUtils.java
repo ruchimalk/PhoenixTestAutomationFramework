@@ -90,14 +90,14 @@ public static Iterator<CreateJobPayload> CreateJobAPIJsonDataProvider() {
 }
 
 @DataProvider(name= "loginAPIExcelDataProvider", parallel=true)
-public static Iterator<UserCredentials> LoginAPIExcelDataProvider() {
+public static Iterator<UserBean> LoginAPIExcelDataProvider() {
 	
 	//Dataprovider needs to return something!!
 	//[]
 	//[][]
 	//Iterator<>
 	
-	return ExcelReaderUtil2.loadTestData();
+	return ExcelReaderUtil2.loadTestData("LoginTestData", UserBean.class);
 	
 }
 	
