@@ -24,7 +24,7 @@ public class ExcelReaderUtil2 {
 		
 	}
 
-	public static <T> Iterator<T> loadTestData(String sheetName,Class<T> clazz ) {
+	public static <T> Iterator<T> loadTestData(String xlsxFile,String sheetName, Class<T> clazz ) {
 
 		// Apache POI OOXML LIB
 		InputStream is = Thread.currentThread().getContextClassLoader()
