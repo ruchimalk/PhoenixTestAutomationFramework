@@ -61,6 +61,6 @@ public static String getProperty(String key)  {
 	//load the properties file using the load
 	
 	
-	return prop.getProperty("BASE_URI");
+	return prop.getProperty(key);
 }
 }
