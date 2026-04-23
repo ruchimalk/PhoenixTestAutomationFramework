@@ -34,7 +34,7 @@ public class SpecUtil {
 	}
 
 	//POST/PUT/PATCH
-	public static RequestSpecification requestSpec(UserBean userbean) {
+	public static RequestSpecification requestSpec(Object userbean) {
 		//to takecare of the common request sections(methods)
 	RequestSpecification request=new RequestSpecBuilder().setBaseUri(ConfigManager.getProperty("BASE_URI"))
 		.setContentType(ContentType.JSON)
