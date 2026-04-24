@@ -1,5 +1,6 @@
 package com.api.tests.datadriven;
 
+import static com.api.utils.DateTimeUtil.getTimeWithDaysAgo;
 import static io.restassured.RestAssured.given;
 
 import java.util.ArrayList;
@@ -12,12 +13,20 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import com.api.constants.Model;
+import com.api.constants.OEM;
+import com.api.constants.Platform;
+import com.api.constants.Problem;
+import com.api.constants.Product;
 import com.api.constants.Roles;
+import com.api.constants.ServiceLocation;
+import com.api.constants.Warranty_Status;
 import com.api.request.model.CreateJobPayload;
 import com.api.request.model.Customer;
 import com.api.request.model.CustomerAddress;
 import com.api.request.model.CustomerProduct;
 import com.api.request.model.Problems;
+import com.api.services.JobService;
 import com.api.utils.DateTimeUtil;
 import com.api.utils.FakeDataGenerator;
 import com.api.utils.SpecUtil;
@@ -26,13 +35,19 @@ import com.github.javafaker.Faker;
 import io.restassured.module.jsv.JsonSchemaValidator;
 
 public class CreateJobAPIDbDataDrivenTest {
+	private JobService jobService;
 	
+	@BeforeMethod(description = "Creating createjob api request payload and instantiating the Job Service")
+	public void setup() {
+		 
+		jobService= new JobService();
+	}
 
 	@Test(description = "Verify if the create job API is able to create Inwarranty job", groups = { "api",
 			"regression", "faker" }, dataProviderClass = com.dataproviders.DataProviderUtils.class, dataProvider = "CreateJobAPIDBDataProvider")
 	public void createJobAPITest(CreateJobPayload createJobPayload) {
 
-		given().spec(SpecUtil.requestSpecWithAuth(Roles.FD, createJobPayload)).when().post("/job/create").then()
+		jobService.createJob(Roles.FD, createJobPayload).then()
 				.spec(SpecUtil.responseSpec_OK())
 				.body(JsonSchemaValidator
 						.matchesJsonSchemaInClasspath("response-schema/CreateJobAPIResponseSchema.json"))

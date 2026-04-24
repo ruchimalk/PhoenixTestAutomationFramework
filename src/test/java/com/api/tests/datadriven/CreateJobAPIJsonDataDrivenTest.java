@@ -18,6 +18,7 @@ import com.api.request.model.Customer;
 import com.api.request.model.CustomerAddress;
 import com.api.request.model.CustomerProduct;
 import com.api.request.model.Problems;
+import com.api.services.JobService;
 import com.api.utils.DateTimeUtil;
 import com.api.utils.FakeDataGenerator;
 import com.api.utils.SpecUtil;
@@ -26,13 +27,20 @@ import com.github.javafaker.Faker;
 import io.restassured.module.jsv.JsonSchemaValidator;
 
 public class CreateJobAPIJsonDataDrivenTest {
+	private JobService jobService;
 	
+	@BeforeMethod(description = "Creating createjob api request payload and instantiating the Job Service")
+	public void setup() {
+		 
+		jobService= new JobService();
+	}
+
 
 	@Test(description = "Verify if the create job API is able to create Inwarranty job", groups = { "api",
 			"regression", "faker" }, dataProviderClass = com.dataproviders.DataProviderUtils.class, dataProvider = "CreateJobAPIJsonDataProvider")
 	public void createJobAPITest(CreateJobPayload createJobPayload) {
 
-		given().spec(SpecUtil.requestSpecWithAuth(Roles.FD, createJobPayload)).when().post("/job/create").then()
+		jobService.createJob(Roles.FD, createJobPayload).then()
 				.spec(SpecUtil.responseSpec_OK())
 				.body(JsonSchemaValidator
 						.matchesJsonSchemaInClasspath("response-schema/CreateJobAPIResponseSchema.json"))

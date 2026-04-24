@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 
 import com.api.constants.Roles;
 import com.api.request.model.CreateJobPayload;
+import com.api.services.JobService;
 import com.api.utils.SpecUtil;
 import com.database.dao.CustomerDao;
 import com.database.model.CustomerDBModel;
@@ -13,7 +14,7 @@ import com.database.model.CustomerDBModel;
 import io.restassured.module.jsv.JsonSchemaValidator;
 
 public class CreateJobAPITest {
-	
+
 	
 
    
