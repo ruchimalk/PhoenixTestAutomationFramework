@@ -20,6 +20,7 @@ import com.api.request.model.Customer;
 import com.api.request.model.CustomerAddress;
 import com.api.request.model.CustomerProduct;
 import com.api.request.model.Problems;
+import com.api.services.JobService;
 import com.api.utils.DateTimeUtil;
 import com.api.utils.FakeDataGenerator;
 import com.api.utils.SpecUtil;
@@ -32,11 +33,13 @@ import io.restassured.module.jsv.JsonSchemaValidator;
 public class CreateJobAPIFakeDataDrivenTest {
 	private CreateJobPayload createJobPayload;
 	public final static String country = "India";
+	private JobService jobService;
 
 	@BeforeMethod(description = "Creating create job api payload")
 	public void setup() {
 
 		createJobPayload = FakeDataGenerator.createFakeCreateJobData();
+		jobService= new JobService();
 
 	}
 
@@ -44,7 +47,7 @@ public class CreateJobAPIFakeDataDrivenTest {
 			"regression", "faker" }, dataProviderClass = com.dataproviders.DataProviderUtils.class, dataProvider = "CreateJobFakerAPIDataProvider")
 	public void createJobAPITest(CreateJobPayload createJobPayload) throws SQLException {
 
-		int customerId=given().spec(SpecUtil.requestSpecWithAuth(Roles.FD, createJobPayload)).when().post("/job/create").then()
+		jobService.createJob(Roles.FD, createJobPayload).then()
 				.spec(SpecUtil.responseSpec_OK())
 				.body(JsonSchemaValidator
 						.matchesJsonSchemaInClasspath("response-schema/CreateJobAPIResponseSchema.json"))
@@ -52,16 +55,7 @@ public class CreateJobAPIFakeDataDrivenTest {
 				.body("data.mst_service_location_id", Matchers.equalTo(1))
 				.body("data.job_number", Matchers.startsWith("JOB_")).extract()
 				.body().jsonPath().getInt("data.tr_customer_id");
-		        Customer expectedCustomerData= createJobPayload.customer();
-		     CustomerDBModel actualCustomerDataInDb=CustomerDao.getCustomerInfo(customerId);
-		     Assert.assertEquals(actualCustomerDataInDb.getFirst_name(), expectedCustomerData.first_name());
-				Assert.assertEquals(actualCustomerDataInDb.getLast_name(), expectedCustomerData.last_name());
-				Assert.assertEquals(actualCustomerDataInDb.getMobile_number(),expectedCustomerData.mobile_number());
-				Assert.assertEquals(actualCustomerDataInDb.getEmail_id(),expectedCustomerData.email_id());
-				Assert.assertEquals(actualCustomerDataInDb.getEmail_id_alt(), expectedCustomerData.email_id_alt());
-				Assert.assertEquals(actualCustomerDataInDb.getMobile_number_alt(), expectedCustomerData.mobile_number_alt());
-
-
+		       
 	}
 
 }

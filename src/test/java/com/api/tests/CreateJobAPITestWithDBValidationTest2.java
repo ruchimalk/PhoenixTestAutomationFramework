@@ -29,6 +29,7 @@ import com.api.request.model.CustomerAddress;
 import com.api.request.model.CustomerProduct;
 import com.api.request.model.Problems;
 import com.api.response.model.CreateJobResponseModel;
+import com.api.services.JobService;
 import com.api.utils.SpecUtil;
 import com.database.dao.CustomerAddressDao;
 import com.database.dao.CustomerDao;
@@ -49,14 +50,15 @@ private Customer customer;
 private CreateJobPayload createJobPayload;
 private CustomerAddress customerAddress;
 private CustomerProduct customerProduct;
+private JobService jobService;
 
 @BeforeMethod(description = "Creating createjob api request payload and instantiating the Job Service")
 public void setup() {
 	 customer = new Customer("Jatin", "Shharma", "7045663552", "", "jatinvsharma@gmail.com", "");
  customerAddress = new CustomerAddress("D 404", "Vasant Galaxy", "Bangur nagar", "Inorbit",
 			"Mumbai", "411039", "India", "Maharashtra");
-	customerProduct = new CustomerProduct(getTimeWithDaysAgo(10), "134530332004903",
-			"134530332004903", "134530332004903", getTimeWithDaysAgo(10), Product.NEXUS_2.getCode(),
+	customerProduct = new CustomerProduct(getTimeWithDaysAgo(10), "134530332004900",
+			"134530332004900", "134530332004900", getTimeWithDaysAgo(10), Product.NEXUS_2.getCode(),
 			Model.NEXUS_2_BLUE.getCode());
 	Problems problems = new Problems(Problem.SMARTPHONE_IS_RUNNING_SLOW.getCode(), "Battery Issue");
 
@@ -66,6 +68,7 @@ public void setup() {
 	createJobPayload = new CreateJobPayload(ServiceLocation.SERVICE_LOCATION_A.getCode(),
 			Platform.FRONT_DESK.getCode(), Warranty_Status.IN_WARRANTY.getCode(), OEM.GOOGLE.getCode(), customer,
 			customerAddress, customerProduct, problemList);
+	jobService= new JobService();
 }
    
 	
@@ -76,8 +79,7 @@ public void setup() {
 	
 
 		 
-		Response response=	given().spec(SpecUtil.requestSpecWithAuth(Roles.FD, createJobPayload))
-		.when().post("/job/create")
+		Response response=jobService.createJob(Roles.FD, createJobPayload)	
 		.then().spec(SpecUtil.responseSpec_OK())
 		.body(JsonSchemaValidator.matchesJsonSchemaInClasspath("response-schema/CreateJobAPIResponseSchema.json"))
 		.body("message", Matchers.equalTo("Job created successfully. "))

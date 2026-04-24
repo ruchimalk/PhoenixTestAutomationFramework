@@ -17,6 +17,7 @@ import com.api.request.model.Customer;
 import com.api.request.model.CustomerAddress;
 import com.api.request.model.CustomerProduct;
 import com.api.request.model.Problems;
+import com.api.services.JobService;
 import com.api.utils.DateTimeUtil;
 import com.api.utils.FakeDataGenerator;
 import com.api.utils.SpecUtil;
@@ -25,6 +26,8 @@ import com.github.javafaker.Faker;
 import io.restassured.module.jsv.JsonSchemaValidator;
 
 public class CreateJobAPITestDataDrivenTest {
+	private JobService jobService;
+
 	private CreateJobPayload createJobPayload;
 	public final static String country = "India";
 
@@ -33,7 +36,8 @@ public class CreateJobAPITestDataDrivenTest {
 	
 
 	createJobPayload= FakeDataGenerator.createFakeCreateJobData();
-	
+	jobService= new JobService();
+
 	
 }
    
@@ -45,8 +49,7 @@ public class CreateJobAPITestDataDrivenTest {
 	
 
 		 
-		given().spec(SpecUtil.requestSpecWithAuth(Roles.FD, createJobPayload))
-		.when().post("/job/create")
+		jobService.createJob(Roles.FD, createJobPayload)	
 		.then().spec(SpecUtil.responseSpec_OK())
 		.body(JsonSchemaValidator.matchesJsonSchemaInClasspath("response-schema/CreateJobAPIResponseSchema.json"))
 		.body("message", Matchers.equalTo("Job created successfully. "))
