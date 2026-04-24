@@ -9,6 +9,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.api.request.model.UserCredentials;
+import com.api.services.AuthService;
 import com.api.utils.SpecUtil;
 import com.dataproviders.api.bean.UserBean;
 
@@ -18,14 +19,21 @@ import io.restassured.http.ContentType;
 import io.restassured.module.jsv.JsonSchemaValidator;
 
 public class LoginAPIExcelDataDrivenTest {
+	
+	private AuthService authService;
+	@BeforeMethod(description="Setting up the Auth Service reference")
+	public void setup() {
+		
+		authService= new AuthService();
+		
+	}
 
 	@Test(description= "Verifying if the login api is working for user iamfd", groups= {"api","regression","dataDriven", "json"}, 
 			dataProviderClass=com.dataproviders.DataProviderUtils.class, dataProvider= "loginAPIExcelDataProvider")
 	public void loginAPITest(UserBean userBean)  {
 		
 		//Read the property value that is going to be passed from terminal
-		given().spec(SpecUtil.requestSpec(userBean))
-		.when().post("login")
+		authService.login(userBean)
 		.then().spec(SpecUtil.responseSpec_OK())
 		.body("message", equalTo("Success"))
 		.and().body(JsonSchemaValidator.matchesJsonSchemaInClasspath("response-schema/LoginResponseSchema.json"));
