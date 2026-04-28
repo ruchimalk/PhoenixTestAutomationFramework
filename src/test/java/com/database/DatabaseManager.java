@@ -5,6 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+
 import com.api.utils.ConfigManager;
 import com.api.utils.EnvUtil;
 import com.api.utils.VaultDBConfig;
@@ -13,7 +16,8 @@ import com.zaxxer.hikari.HikariDataSource;
 
 public class DatabaseManager {
 	
-	
+	private static final org.apache.logging.log4j.Logger LOGGER= LogManager.getLogger(DatabaseManager.class);
+
 	private static final int MAXIMUM_POOL_SIZE =
 		    Integer.parseInt(ConfigManager.getProperty("MAXIMUM_POOL_SIZE"));
 
@@ -32,7 +36,7 @@ public class DatabaseManager {
 		private static final String HIKARI_CP_POOL_NAME =
 			ConfigManager.getProperty("HIKARI_CP_POOL_NAME");
 
-
+          
 
 
     private volatile static Connection conn;//any update that happens to this conn variable
@@ -43,29 +47,26 @@ public class DatabaseManager {
 	private static final String DB_USER_NAME=loadSecret("DB_USER_NAME");
 	private static final String DB_PASSWORD= loadSecret("DB_PASSWORD");
 	
+	
 	public static String loadSecret(String key) {
 		
-		String value=null;
-	    //Value will get its value from either Vault or Env
-		
+		String value=null;		
 		if(isVaultUp) {
 		    value=VaultDBConfig.getSecret(key);	
 		
 	
-	    if(value==null) {
-	    	
-	    	System.out.println("Vault is down or some issue with Vault");
+	    if(value==null) {	    	
+	    	LOGGER.error("Vault is down or some issue with Vault");
 	    	isVaultUp=false;
 	    }
 	    
 	    else {
-	    	System.out.println("Reading value from Vault");
+	    	LOGGER.info("Reading the value for the key {} from vault......", key);
 		    value=VaultDBConfig.getSecret(key);	
 	    	return value;
 	    }
 	}			
-	    //We need to pick up data from Env
-	    System.out.println("Reading value from Env");
+	    LOGGER.info("Reading value from ENV...");
 	    value= EnvUtil.getValue(key);
 		return value;
 		
@@ -80,6 +81,7 @@ public class DatabaseManager {
 	
 	public  static void initializePool()  {
 		if(hikariDataSource==null) {//first check which all parallel threads will enter
+			LOGGER.warn("Database connection is not available....Creating HikariDataSource");
 			synchronized (DatabaseManager.class) {
 				if(hikariDataSource==null) {//only and only for the first connection request
 					HikariConfig hikariConfig= new HikariConfig();
@@ -97,6 +99,9 @@ public class DatabaseManager {
 
 
 					hikariDataSource= new HikariDataSource(hikariConfig);
+					
+					LOGGER.info("Hikari datasource created!!!");
+
 				}
 			}
 		}
@@ -104,11 +109,12 @@ public class DatabaseManager {
 public static Connection getConnection() throws SQLException {
 	Connection connection= null;
 	if(hikariDataSource==null) {
-		
+		LOGGER.info("Initializing the database connection using HikariCP");
 		initializePool();//Automatic initialization of pool
 	}
 	
 	else if(hikariDataSource.isClosed()) {
+		LOGGER.error("Hikari data source is closed");
 		throw new SQLException("Hikari data source is closed");
 	}
 	try {

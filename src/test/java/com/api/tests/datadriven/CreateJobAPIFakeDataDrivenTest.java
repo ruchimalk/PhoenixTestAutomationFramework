@@ -38,7 +38,7 @@ public class CreateJobAPIFakeDataDrivenTest {
 	@BeforeMethod(description = "Creating create job api payload")
 	public void setup() {
 
-		createJobPayload = FakeDataGenerator.createFakeCreateJobData();
+		createJobPayload = FakeDataGenerator.createFakeCreateJobData(4);
 		jobService= new JobService();
 
 	}

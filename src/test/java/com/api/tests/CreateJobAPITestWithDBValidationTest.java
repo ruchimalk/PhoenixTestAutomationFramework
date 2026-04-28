@@ -58,8 +58,8 @@ public void setup() {
 	 customer = new Customer("Jatin", "Shharma", "7045663552", "", "jatinvsharma@gmail.com", "");
  customerAddress = new CustomerAddress("D 404", "Vasant Galaxy", "Bangur nagar", "Inorbit",
 			"Mumbai", "411039", "India", "Maharashtra");
-	customerProduct = new CustomerProduct(getTimeWithDaysAgo(10), "134530312081901",
-			"134530312081901", "134530312081901", getTimeWithDaysAgo(10), Product.NEXUS_2.getCode(),
+	customerProduct = new CustomerProduct(getTimeWithDaysAgo(10), "134530312081904",
+			"134530312081904", "134530312081904", getTimeWithDaysAgo(10), Product.NEXUS_2.getCode(),
 			Model.NEXUS_2_BLUE.getCode());
 	Problems problems = new Problems(Problem.SMARTPHONE_IS_RUNNING_SLOW.getCode(), "Battery Issue");
 
