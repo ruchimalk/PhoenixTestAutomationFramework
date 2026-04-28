@@ -6,12 +6,17 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+
 import com.api.request.model.UserCredentials;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonReaderUtility {
+	
+	private static final org.apache.logging.log4j.Logger LOGGER= LogManager.getLogger(JsonReaderUtility.class);
 
 	public static <T> Iterator<T> loadJSON(String fileName,Class<T[]> clazz) {
 
@@ -31,22 +36,21 @@ public class JsonReaderUtility {
 		 * ObjectMapper objectMapper= new ObjectMapper(); List list=
 		 * objectMapper.readValue(is, List.class); System.out.println(list);
 		 */
+		
+		LOGGER.info("Reading the JSON from the file {}", fileName);
 		InputStream is= Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName);
 		ObjectMapper objectMapper= new ObjectMapper();
 		T[] classArray;
 		 List<T> list = null;
 		try {
+			LOGGER.info("Converting the JSON data to the bean class {}", clazz);
 			 classArray = objectMapper.readValue(is,clazz);
 	        list=Arrays.asList(classArray);
 
-		} catch (StreamReadException e) {
+		} 
+		catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DatabindException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			LOGGER.error("Cannot read the JSON from the file {}", fileName, e);
 			e.printStackTrace();
 		}
         return list.iterator();

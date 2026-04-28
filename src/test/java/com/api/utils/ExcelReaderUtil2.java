@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFAnchor;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -19,24 +21,27 @@ import com.poiji.bind.Poiji;
 
 public class ExcelReaderUtil2 {
 	
+	private static final org.apache.logging.log4j.Logger LOGGER= LogManager.getLogger(EnvUtil.class);
+	
 	private ExcelReaderUtil2() {
 		
 		
 	}
 
 	public static <T> Iterator<T> loadTestData(String xlsxFile,String sheetName, Class<T> clazz ) {
-
-		// Apache POI OOXML LIB
+LOGGER.info("Reading the test data from .xlsx file {} and the sheet name is {}", xlsxFile, sheetName);
 		InputStream is = Thread.currentThread().getContextClassLoader()
 				.getResourceAsStream("testData/PhoenixTestData.xlsx");
 		XSSFWorkbook myWorkbook = null;
 		try {
 			myWorkbook = new XSSFWorkbook(is);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			LOGGER.error("Cannot read the excel {}", xlsxFile, e);
 			e.printStackTrace();
 		}
 		XSSFSheet mySheet = myWorkbook.getSheet(sheetName);
+		LOGGER.info("Converting the XSSFSheet to POJO Class of type {}",clazz, sheetName);
+
 		List<T> dataList=Poiji.fromExcel(mySheet, clazz);
 		return dataList.iterator();
 	}

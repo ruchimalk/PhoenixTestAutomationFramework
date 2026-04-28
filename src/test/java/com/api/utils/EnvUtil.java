@@ -1,12 +1,17 @@
 package com.api.utils;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+
 import io.github.cdimascio.dotenv.Dotenv;
 
 public class EnvUtil {
 	
-	public static Dotenv dotenv;
+	private static Dotenv dotenv;
+	private static final org.apache.logging.log4j.Logger LOGGER= LogManager.getLogger(EnvUtil.class);
 	
 	static {
+		LOGGER.info("Loading the .env file.....");
 		dotenv= Dotenv.load();
 		
 	}
@@ -16,6 +21,8 @@ public class EnvUtil {
 		
 	}
 public static String getValue(String varName) {
+	
+	LOGGER.info("Reading the value of {} from .env", varName);
 	
 	return dotenv.get(varName);
 }

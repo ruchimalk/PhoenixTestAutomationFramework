@@ -19,10 +19,14 @@ import io.restassured.http.ContentType;
 import io.restassured.module.jsv.JsonSchemaValidator;
 
 public class LoginAPITestDataDrivenTest {
+	
+	private UserBean userCredentials;
 	private AuthService authService;
 	@BeforeMethod(description= "Initializing the Auth Service")
 	
 	public void setup() {
+		userCredentials= new UserBean("iamfd", "password");
+		
 authService= new AuthService();
 	}
 	@Test(description= "Verifying if the login api is working for user iamfd", groups= {"api","regression","dataDriven", "csv"}, 

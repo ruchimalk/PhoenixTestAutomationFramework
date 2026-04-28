@@ -35,7 +35,7 @@ public class CreateJobAPITestDataDrivenTest {
 	public void setup() {
 	
 
-	createJobPayload= FakeDataGenerator.createFakeCreateJobData();
+	createJobPayload= FakeDataGenerator.createFakeCreateJobData(3);
 	jobService= new JobService();
 
 	
