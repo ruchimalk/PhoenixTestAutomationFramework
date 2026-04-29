@@ -10,6 +10,7 @@ import io.restassured.specification.ResponseSpecification;
 import org.hamcrest.Matchers;
 
 import com.api.constants.Roles;
+import com.api.filters.SensitiveDataFilter;
 import com.api.request.model.UserCredentials;
 import com.api.utils.ConfigManager.*;
 import com.dataproviders.api.bean.UserBean;
@@ -71,6 +72,7 @@ public class SpecUtil {
 				.setAccept(ContentType.JSON)
 				.addHeader("Authorization", AuthTokenProvider.getToken(role))
 				.setBody(payload)
+				.addFilter(new SensitiveDataFilter())
 				.log(LogDetail.URI)
 				.log(LogDetail.METHOD)
 				.log(LogDetail.HEADERS)
