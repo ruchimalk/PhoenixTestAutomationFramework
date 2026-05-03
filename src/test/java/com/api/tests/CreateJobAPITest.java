@@ -2,6 +2,7 @@ package com.api.tests;
 import static io.restassured.RestAssured.given;
 
 import org.hamcrest.Matchers;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import com.api.constants.Roles;
@@ -12,6 +13,7 @@ import com.database.dao.CustomerDao;
 import com.database.model.CustomerDBModel;
 
 import io.restassured.module.jsv.JsonSchemaValidator;
+@Listeners(com.listeners.APITestListener.class)
 
 public class CreateJobAPITest {
 
