@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.equalTo;
 import java.io.IOException;
 
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import com.api.request.model.UserCredentials;
@@ -17,6 +18,7 @@ import static com.api.utils.ConfigManager.*;
 
 import io.restassured.http.ContentType;
 import io.restassured.module.jsv.JsonSchemaValidator;
+@Listeners(com.listeners.APITestListener.class)
 
 public class LoginAPIExcelDataDrivenTest {
 	

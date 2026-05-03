@@ -44,6 +44,7 @@ import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
 
 import static com.api.utils.SpecUtil.*;
+@Listeners(com.listeners.APITestListener.class)
 
 public class CreateJobAPITestWithDBValidationTest2 {
 private Customer customer;
