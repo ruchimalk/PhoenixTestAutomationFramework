@@ -26,7 +26,7 @@ public class DataProviderUtils {
 
 	@DataProvider(name= "LoginAPIDataProvider", parallel=true)
 	public static Iterator<UserBean> loginDataProvider() {
-		LOGGER.info("Loading data from the CSV file testData/LoginCreds.csv");
+		LOGGER.info("Loading data from the CSV file testData/Logincreds.csv");
 
 		//Dataprovider needs to return something!!
 		//[]
@@ -70,15 +70,15 @@ LOGGER.info("Creating  the fake Create Job data with the fakercount");
 }
 
 
-@DataProvider(name= "LoginAPIJsonDataProvider", parallel=true)
+@DataProvider(name="LoginAPIJsonDataProvider", parallel=true)
 public static Iterator<UserBean> loginAPIJsonDataProvider() {
 	
 	//Dataprovider needs to return something!!
 	//[]
 	//[][]
 	//Iterator<>
-	LOGGER.info("Loading data from the JSON file testData/CreateJobAPIData.json");
-	return JsonReaderUtility.loadJSON("testData/CreateJobAPIData.json", UserBean[].class);
+	LOGGER.info("Loading data from the JSON file testData/demo.json");
+	return JsonReaderUtility.loadJSON("testData/demo.json", UserBean[].class);
 	
 	
 }

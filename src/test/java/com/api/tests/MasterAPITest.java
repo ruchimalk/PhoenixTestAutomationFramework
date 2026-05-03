@@ -3,6 +3,7 @@ package com.api.tests;
 import static org.hamcrest.Matchers.*;
 
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import com.api.constants.Roles;
@@ -14,7 +15,7 @@ import com.api.utils.SpecUtil;
 import io.restassured.module.jsv.JsonSchemaValidator;
 
 import static io.restassured.RestAssured.*;
-
+@Listeners(com.listeners.APITestListener.class)
 public class MasterAPITest {
 	private MasterService masterService;
 	@BeforeMethod(description="Instantiating the Master Service Object")

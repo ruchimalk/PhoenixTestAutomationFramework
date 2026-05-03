@@ -21,20 +21,18 @@ import io.restassured.module.jsv.JsonSchemaValidator;
 @Listeners(com.listeners.APITestListener.class)
 public class LoginAPITestDataDrivenTest {
 	
-	private UserBean userCredentials;
 	private AuthService authService;
 	@BeforeMethod(description= "Initializing the Auth Service")
 	
 	public void setup() {
-		userCredentials= new UserBean("iamfd", "password");
 		
 authService= new AuthService();
 	}
 	@Test(description= "Verifying if the login api is working for user iamfd", groups= {"api","regression","dataDriven", "csv"}, 
-			dataProviderClass=com.dataproviders.DataProviderUtils.class, dataProvider= "LoginAPIDataProvider")
-	public void loginAPITest(UserBean userbean)  {
+			dataProviderClass=com.dataproviders.DataProviderUtils.class, dataProvider="LoginAPIDataProvider")
+	public void loginAPITest(UserBean userBean)  {
 		
-		authService.login(userbean)
+		authService.login(userBean)
 		.then().spec(SpecUtil.responseSpec_OK())
 		.body("message", equalTo("Success"))
 		.and().body(JsonSchemaValidator.matchesJsonSchemaInClasspath("response-schema/LoginResponseSchema.json"));

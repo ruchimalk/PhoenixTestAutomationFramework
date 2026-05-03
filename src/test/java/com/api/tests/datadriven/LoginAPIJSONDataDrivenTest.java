@@ -31,10 +31,10 @@ public class LoginAPIJSONDataDrivenTest {
 
 	@Test(description= "Verifying if the login api is working for user iamfd", groups= {"api","regression","dataDriven", "json"}, 
 			dataProviderClass=com.dataproviders.DataProviderUtils.class, dataProvider= "LoginAPIJsonDataProvider")
-	public void loginAPITest(UserBean userCredentials)  {
+	public void loginAPITest(UserBean userBean	)  {
 		
 		//Read the property value that is going to be passed from terminal
-	authService.login(userCredentials)
+	authService.login(userBean)
 		.then().spec(SpecUtil.responseSpec_OK())
 		.body("message", equalTo("Success"))
 		.and().body(JsonSchemaValidator.matchesJsonSchemaInClasspath("response-schema/LoginResponseSchema.json"));
