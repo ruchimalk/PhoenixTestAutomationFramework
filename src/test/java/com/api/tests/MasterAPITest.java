@@ -12,10 +12,18 @@ import com.api.utils.AuthTokenProvider;
 import com.api.utils.ConfigManager;
 import com.api.utils.SpecUtil;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
 import io.restassured.module.jsv.JsonSchemaValidator;
 
 import static io.restassured.RestAssured.*;
 @Listeners(com.listeners.APITestListener.class)
+@Epic("Job Management")
+@Feature("Master API")
 public class MasterAPITest {
 	private MasterService masterService;
 	@BeforeMethod(description="Instantiating the Master Service Object")
@@ -43,6 +51,9 @@ public class MasterAPITest {
      .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("\\response-schema\\MasterAPIResponseSchema.json"));
      
 	}
+	@Story("Master API should bring OEM details")
+	@Description("Verifying if master api is giving correct response")
+	@Severity(SeverityLevel.BLOCKER)
 	@Test(description="Verifying if master api is giving correct status code for invalid token", groups= {"api", "negative", "regression", "smoke"})
 	public void invalidTokenMasterAPITest() {
 		

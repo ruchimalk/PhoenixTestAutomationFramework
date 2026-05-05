@@ -12,15 +12,20 @@ import com.api.utils.SpecUtil;
 import com.database.dao.CustomerDao;
 import com.database.model.CustomerDBModel;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
 import io.restassured.module.jsv.JsonSchemaValidator;
 @Listeners(com.listeners.APITestListener.class)
-
+@Epic("User Management")
+@Feature("Creating the job")
 public class CreateJobAPITest {
-
-	
-
-   
-	
+@Story("User should be able to create a job")
+@Description("Verify if the FD user is able to create a job")
+@Severity(SeverityLevel.BLOCKER)
 	@Test(description= "Verify if the create job API is able to create Inwarranty job", groups= {"api", "datadriven", "regression"}, dataProviderClass=com.dataproviders.DataProviderUtils.class, dataProvider="CreateJobAPIDataProvider")
 	public void createJobAPITest(CreateJobPayload createJobPayload) {
 
