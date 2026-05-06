@@ -10,7 +10,7 @@ import io.restassured.response.Response;
 public class UserService {
 	
 	private static final String USERDETAILS_ENDPOINT="/userdetails";
-	
+	@Step("Making user Details api request")
 	public Response userDetails(Roles role) {
 		
 		Response response=given().spec(SpecUtil.requestSpecWithAuth(role))

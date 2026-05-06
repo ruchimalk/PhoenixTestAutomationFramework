@@ -10,6 +10,7 @@ import io.github.jopenlibs.vault.VaultConfig;
 import io.github.jopenlibs.vault.VaultException;
 import io.github.jopenlibs.vault.VaultImpl;
 import io.github.jopenlibs.vault.response.LogicalResponse;
+import io.qameta.allure.Step;
 
 public class VaultDBConfig {
 	
@@ -34,6 +35,8 @@ public class VaultDBConfig {
 		
 	
 	}
+	
+@Step("Retrieving the secret from the vault")	
 public static String getSecret(String key) {
 	LogicalResponse response = null;
 	try {

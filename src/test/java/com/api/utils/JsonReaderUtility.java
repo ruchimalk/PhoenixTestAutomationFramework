@@ -14,9 +14,12 @@ import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.qameta.allure.Step;
+
 public class JsonReaderUtility {
 	
 	private static final org.apache.logging.log4j.Logger LOGGER= LogManager.getLogger(JsonReaderUtility.class);
+	@Step("Loading test data from json file")
 
 	public static <T> Iterator<T> loadJSON(String fileName,Class<T[]> clazz) {
 
