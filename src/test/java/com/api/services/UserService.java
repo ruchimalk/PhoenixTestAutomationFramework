@@ -5,6 +5,7 @@ import static io.restassured.RestAssured.given;
 import com.api.constants.Roles;
 import com.api.utils.SpecUtil;
 
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 
 public class UserService {
