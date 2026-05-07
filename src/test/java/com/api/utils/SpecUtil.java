@@ -1,5 +1,7 @@
 package com.api.utils;
 
+import io.qameta.allure.Step;
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.filter.log.LogDetail;
@@ -18,11 +20,11 @@ import com.dataproviders.api.bean.UserBean;
 public class SpecUtil {
 
 	// Static methods
-
+@Step("Setting up the BaseURI, Content Type as Application/JSON and attatching sensitive data filter for a role and attaching payload")
 	public static RequestSpecification requestSpec() {
 		// to takecare of the common request sections(methods)
 		RequestSpecification request = new RequestSpecBuilder().setBaseUri(ConfigManager.getProperty("BASE_URI"))
-				.setContentType(ContentType.JSON).setAccept(ContentType.JSON).build();
+				.setContentType(ContentType.JSON).setAccept(ContentType.JSON).addFilter(new SensitiveDataFilter()).addFilter(new AllureRestAssured()).build();
 
 		return request;
 
@@ -33,7 +35,7 @@ public class SpecUtil {
 		// to takecare of the common request sections(methods)
 		RequestSpecification request = new RequestSpecBuilder().setBaseUri(ConfigManager.getProperty("BASE_URI"))
 				.setContentType(ContentType.JSON).setAccept(ContentType.JSON).setBody(userbean)
-				.addFilter(new SensitiveDataFilter()).build();
+				.addFilter(new SensitiveDataFilter()).addFilter(new AllureRestAssured()).build();
 
 		return request;
 
@@ -43,7 +45,7 @@ public class SpecUtil {
 		RequestSpecification requestSpecification = new RequestSpecBuilder()
 				.setBaseUri(ConfigManager.getProperty("BASE_URI")).setContentType(ContentType.JSON)
 				.setAccept(ContentType.JSON).addHeader("Authorization", AuthTokenProvider.getToken(role))
-				.addFilter(new SensitiveDataFilter())
+				.addFilter(new SensitiveDataFilter()).addFilter(new AllureRestAssured())
 				.build();
 
 		return requestSpecification;
@@ -59,13 +61,15 @@ public class SpecUtil {
 
 	}
 
-	public static ResponseSpecification responseSpec_OK() {
+	@Step("Expecting the response to have Content Type as Application/JSON, response time less than 1000 ms and status code")
+public static ResponseSpecification responseSpec_OK() {
 
 		ResponseSpecification responseSpecification = new ResponseSpecBuilder().expectContentType(ContentType.JSON)
 				.expectStatusCode(200).expectResponseTime(Matchers.lessThan(2000L)).build();
 		return responseSpecification;
 
 	}
+	@Step("Expecting the response to have Content Type as text,response time less than 1000 ms and status code")
 
 	public static ResponseSpecification responseSpec_JSON(int statusCode) {
 

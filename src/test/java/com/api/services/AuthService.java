@@ -9,6 +9,7 @@ import com.api.request.model.UserCredentials;
 import com.api.utils.SpecUtil;
 import com.dataproviders.api.bean.UserBean;
 
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 
 public class AuthService {
@@ -17,6 +18,8 @@ public class AuthService {
 	
 	private static final String LOGIN_ENDPOINT= "/login";
 	private static final Logger LOGGER= LogManager.getLogger(AuthService.class);
+	
+	@Step("Perform login request with the userCredentials")
 	public Response login(UserBean userBean) {
 	 
 		
