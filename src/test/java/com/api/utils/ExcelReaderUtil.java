@@ -9,8 +9,10 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class ExcelReaderUtil {
+import io.qameta.allure.Step;
 
+public class ExcelReaderUtil {
+@Step("Loading test data from excel file")
 	public static void main(String[] args) throws IOException {
 
 		// Apache POI OOXML LIB
