@@ -33,7 +33,7 @@ public class MasterAPITest {
 		masterService= new MasterService();
 	}
 	
-	@Test(description= "Verify if the user master API is working for FD user", groups= {"api", "smoke", "regression"})
+	@Test(description= "Verify if the user master API is working for FD user", groups= {"api", "smoke", "regression"}, retryAnalyzer= com.api.retry.RetryAnalyzer.class)
 	public void masterAPITest() {
     masterService.master(Roles.FD)
      .then()

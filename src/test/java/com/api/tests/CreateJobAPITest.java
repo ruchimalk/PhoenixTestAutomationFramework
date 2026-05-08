@@ -26,7 +26,7 @@ public class CreateJobAPITest {
 @Story("User should be able to create a job")
 @Description("Verify if the FD user is able to create a job")
 @Severity(SeverityLevel.BLOCKER)
-	@Test(description= "Verify if the create job API is able to create Inwarranty job", groups= {"api", "datadriven", "regression"}, dataProviderClass=com.dataproviders.DataProviderUtils.class, dataProvider="CreateJobAPIDataProvider")
+	@Test(description= "Verify if the create job API is able to create Inwarranty job", groups= {"api", "datadriven", "regression"}, dataProviderClass=com.dataproviders.DataProviderUtils.class, dataProvider="CreateJobAPIDataProvider", retryAnalyzer= com.api.retry.RetryAnalyzer.class)
 	public void createJobAPITest(CreateJobPayload createJobPayload) {
 
 		System.out.println("#############################################");
